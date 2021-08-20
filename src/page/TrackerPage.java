@@ -1,6 +1,10 @@
+package page;
+
 import java.awt.Font;
 import java.util.ArrayList;
 
+import tool.Data;
+import tool.TitleDraw;
 import visual.composite.HandlePanel;
 
 /**

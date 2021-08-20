@@ -1,3 +1,4 @@
+package page;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +9,8 @@ import javax.imageio.ImageIO;
 import filemeta.FileChooser;
 import input.CustomEventReceiver;
 import input.manager.actionevent.MouseActionEvent;
+import tool.Data;
+import tool.TitleDraw;
 import visual.composite.HandlePanel;
 
 /**
@@ -83,19 +86,21 @@ public class PageEntry {
 	
 	private String pathOff;
 	
-	private static String defaultBackground;
-	
 	private String manualBackground;
 	
 	private boolean active;
 	
 	private boolean showTitle;
 	
+	//-- Not privy to user  -----------------------------------
+	
 	private boolean edit;
 	
 	private int identity;
 	
 	private static String lastPath;
+	
+	private static String defaultBackground;
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
@@ -240,11 +245,44 @@ public class PageEntry {
 		else {
 			drawDisplay(p, centerX, centerY, wid, hei);
 		}
+		p.handleThickRectangle(getPrefix() + "_outline_frame", "move", 20, centerX - wid / 2, centerY - hei / 2, centerX + wid / 2, centerY + hei / 2, Color.black, 3);
 	}
 	
 	private void drawEdit(HandlePanel p, int centerX, int centerY, int wid, int hei) {
 		p.removeElementPrefixed(getPrefix());
 		
+		int numThings = 6;
+		
+		int distMove = hei / (numThings + 1);
+		
+		int currY = centerY - hei / 2;
+		
+
+		handleSelectButton(p, centerX, currY, wid * 9 / 10, hei / (numThings + 2), defaultBackground, -1);
+		
+		currY += distMove;
+		
+		handleSelectButton(p, centerX, currY, wid * 9 / 10, hei / (numThings + 2), defaultBackground, -1);
+		
+		currY += distMove;
+		
+		handleSelectButton(p, centerX, currY, wid * 9 / 10, hei / (numThings + 2), defaultBackground, -1);
+		
+		currY += distMove;
+		
+	}
+	
+	private void handleSelectButton(HandlePanel p, int x, int y, int wid, int hei, String currDisp, int code) {
+		int lWid = wid * 7 / 10;
+		int lX = x + lWid / 2;
+		int rWid = wid * 2 / 10;
+		int rX = x + wid - rWid / 2;
+		
+		p.handleRectangle(getPrefix() + "_edit_select_" + code, "move", 35, lX, y, lWid, hei, Color.white, Color.black);
+		
+		if(currDisp != null) {
+			p.handleImage(getPrefix() + "_edit_select_image_" + code, "move", 35, rX, y, rWid, hei, true, currDisp);
+		}
 		
 	}
 	
